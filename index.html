@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorry Shuraim ❤️</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .card {
+      background: #ffffff;
+      max-width: 440px;
+      width: 100%;
+      border-radius: 24px;
+      padding: 32px 26px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* --- Teddy Bear Graphics (CSS) --- */
+    .teddy-container {
+      position: relative;
+      width: 120px;
+      height: 100px;
+      margin-bottom: 16px;
+    }
+
+    .teddy {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 90px;
+      background: #d1a07c; /* Bear Color */
+      border-radius: 40px 40px 30px 30px;
+      box-shadow: inset 0 -5px 0 rgba(0,0,0,0.1);
+    }
+
+    /* Ears */
+    .ear {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: #d1a07c;
+      border-radius: 50%;
+      top: -10px;
+    }
+    .ear.left { left: -5px; }
+    .ear.right { right: -5px; }
+
+    /* Face */
+    .face {
+      position: absolute;
+      width: 60px;
+      height: 45px;
+      background: #fdebd0; /* Lighter muzzle */
+      border-radius: 15px;
+      top: 35px;
+      left: 10px;
+    }
+
+    .eye {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #1f2937;
+      border-radius: 50%;
+      top: 10px;
+    }
+    .eye.left { left: 15px; }
+    .eye.right { right: 15px; }
+
+    .nose {
+      position: absolute;
+      width: 12px;
+      height: 8px;
+      background: #1f2937;
+      border-radius: 50%;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Mouth - Changes based on mood */
+    .mouth {
+      position: absolute;
+      width: 20px;
+      height: 10px;
+      border: 3px solid #1f2937;
+      border-top: none;
+      border-radius: 0 0 15px 15px;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.3s ease;
+    }
+
+    /* Sad Mouth (Default) */
+    .teddy.sad .mouth {
+      border-radius: 15px 15px 0 0;
+      border-top: 3px solid #1f2937;
+      border-bottom: none;
+      top: 32px;
+    }
+
+    /* Happy Mouth (When forgiven) */
+    .teddy.happy .mouth {
+      border-radius: 0 0 15px 15px;
+      border-top: none;
+      border-bottom: 3px solid #1f2937;
+      top: 28px;
+      width: 25px;
+    }
+
+    /* Heart */
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      top: 5px;
+      right: -25px;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .teddy.happy .heart {
+      opacity: 1;
+      animation: heartbeat 1s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* Sorry Text Plate */
+    .sorry-plate {
+      background: #fff1f2;
+      color: #e11d48;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 15px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      border: 1px solid #fecdd3;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #4b5563;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      min-height: 48px;
+      position: relative;
+      width: 100%;
+    }
+
+    button {
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    #forgiveBtn {
+      background: #e11d48;
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(225, 29, 72, 0.3);
+    }
+
+    #forgiveBtn:hover {
+      transform: translateY(-2px);
+    }
+
+    #angryBtn {
+      background: #f3f4f6;
+      color: #374151;
+    }
+
+    .result {
+      display: none;
+      margin-top: 18px;
+      background: #fdf2f8;
+      border: 1px solid #fbcfe8;
+      color: #9d174d;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- Teddy Bear Graphic -->
+    <div class="teddy-container">
+      <div class="teddy sad" id="teddyBear">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="face">
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+          <div class="nose"></div>
+          <div class="mouth"></div>
+        </div>
+        <div class="heart">❤️</div>
+      </div>
+    </div>
+
+    <div class="sorry-plate">Official Apology Form</div>
+    <h1>I'm Really Sorry, Shuraim</h1>
+    <p>
+      Aaj ghumne ka plan meri galti se cancel ho gaya. Main jaanti hoon aap gussa hain,
+      aur aapka haq banta hai. Par please maan jaaiye na! Agla plan pakka meri taraf se hoga.
+    </p>
+
+    <div class="btn-group" id="btnGroup">
+      <button id="forgiveBtn">Maaf Kiya ❤️</button>
+      <button id="angryBtn">Abhi Bhi Gussa Hoon 😤</button>
+    </div>
+
+    <div class="result" id="resultBox">
+      <strong>Yayyy! Thank you Shuraim! I love you! 🎉❤️</strong><br />
+      Note: Agli date ka venue aap decide karna!
+    </div>
+
+    <div class="footer">Created with ❤️ for Shuraim by Rishita</div>
+  </div>
+
+  <script>
+    const forgiveBtn = document.getElementById("forgiveBtn");
+    const angryBtn = document.getElementById("angryBtn");
+    const resultBox = document.getElementById("resultBox");
+    const teddyBear = document.getElementById("teddyBear");
+    const btnGroup = document.getElementById("btnGroup");
+
+    let dodgeCount = 0;
+
+    // Function to move the "Angry" button
+    function moveAngryButton() {
+      dodgeCount++;
+      
+      // Change teddy to extra sad/scared
+      teddyBear.classList.add('sad');
+      teddyBear.classList.remove('happy');
+
+      const maxX = 140;
+      const maxY = 80;
+      const randX = Math.floor(Math.random() * maxX * 2) - maxX;
+      const randY = Math.floor(Math.random() * maxY * 2) - maxY;
+
+      angryBtn.style.position = 'relative'; // Ensure it can move
+      angryBtn.style.transform = `translate(${randX}px, ${randY}px)`;
+      
+      // Change button text based on how many times he tried to click
+      if (dodgeCount === 3) {
+        angryBtn.textContent = "Pakad ke dikhao 😜";
+      } else if (dodgeCount >= 6) {
+        angryBtn.textContent = "Gussa khatam karo na! 🥺";
+      }
+    }
+
+    // Desktop: Move on hover
+    angryBtn.addEventListener("mouseover", moveAngryButton);
+    
+    // Mobile: Move on click (since there's no hover)
+    angryBtn.addEventListener("click", (e) => {
+      e.preventDefault(); // Prevent any default form action
+      moveAngryButton();
+    });
+
+    // Function when "Forgive" is clicked
+    forgiveBtn.addEventListener("click", () => {
+      // Change teddy to happy
+      teddyBear.classList.remove('sad');
+      teddyBear.classList.add('happy');
+
+      // Hide buttons, show success message
+      btnGroup.style.display = "none";
+      resultBox.style.display = "block";
+    });
+  </script>
+</body>
+</html>
